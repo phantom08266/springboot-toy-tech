@@ -1,5 +1,6 @@
 package study.toy.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -43,21 +44,23 @@ public class Post {
 
     @ToString.Exclude
     @OrderBy("id")
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private Set<PostComment> comments = new LinkedHashSet<>();
 
     @CreatedDate
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @CreatedBy
-    @Column(length = 100)
+    @Column(length = 100, nullable = false, updatable = false)
     private String createdBy;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @LastModifiedBy
-    @Column(length = 100)
+    @Column(length = 100, nullable = false)
     private String updatedBy;
 
     private Post(String title, String content, String hashTag) {
