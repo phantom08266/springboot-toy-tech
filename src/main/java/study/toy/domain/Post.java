@@ -10,13 +10,18 @@ import jakarta.persistence.OrderBy;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
+@Getter
 @ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Post {
 
@@ -51,4 +56,14 @@ public class Post {
     @LastModifiedBy
     @Column(length = 100)
     private String updatedBy;
+
+    private Post(String title, String content, String hashTag) {
+        this.title = title;
+        this.content = content;
+        this.hashTag = hashTag;
+    }
+
+    public static Post of(String title, String content, String hashTag) {
+        return new Post(title, content, hashTag);
+    }
 }
